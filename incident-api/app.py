@@ -1,13 +1,16 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 import requests
-
+import os
 app = Flask(__name__)
 
 CORS(app)
 
-NOTIFICATION_SERVICE_URL = "http://localhost:5001/notify"
-
+NOTIFICATION_SERVICE_URL = os.getenv(
+    "NOTIFICATION_SERVICE_URL",
+    "http://localhost:5001/notify"
+)
+APP_ENV = os.getenv("APP_ENV", "development")
 incidents = []
 
 

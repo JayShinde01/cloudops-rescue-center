@@ -1,0 +1,52 @@
+services:
+
+  frontend:
+    build:
+      context: ./frontend
+    container_name: cloudops-frontend
+    ports:
+      - "8080:80"
+    depends_on:
+      - incident-api
+
+  incident-api:
+    build:
+      context: ./incident-api
+    container_name: incident-api
+    ports:
+      - "5000:5000"
+    environment:
+      NOTIFICATION_SERVICE_URL: http://notification-service:5001/notify
+      APP_ENV: docker
+    depends_on:
+      notification-service:
+        condition: service_healthy
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "python",
+          "-c",
+          "import urllib.request; urllib.request.urlopen('http://localhost:5000/health')"
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  notification-service:
+    build:
+      context: ./notification-service
+    container_name: notification-service
+    ports:
+      - "5001:5001"
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "python",
+          "-c",
+          "import urllib.request; urllib.request.urlopen('http://localhost:5001/health')"
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 3
