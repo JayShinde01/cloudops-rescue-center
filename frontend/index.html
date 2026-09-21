@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>CloudOps Rescue Center</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <header>
+        <h1>🚨 CloudOps Rescue Center</h1>
+        <p>Incident Management Dashboard</p>
+    </header>
+
+    <main>
+
+        <section class="stats">
+
+            <div class="card">
+                <h3>Total Incidents</h3>
+                <p id="totalIncidents">0</p>
+            </div>
+
+            <div class="card">
+                <h3>Open</h3>
+                <p id="openIncidents">0</p>
+            </div>
+
+            <div class="card">
+                <h3>Resolved</h3>
+                <p id="resolvedIncidents">0</p>
+            </div>
+
+        </section>
+
+
+        <section class="form-section">
+
+            <h2>Report New Incident</h2>
+
+            <form id="incidentForm">
+
+                <input
+                    type="text"
+                    id="title"
+                    placeholder="Incident title"
+                    required
+                >
+
+                <select id="severity">
+
+                    <option value="LOW">Low</option>
+                    <option value="MEDIUM" selected>Medium</option>
+                    <option value="HIGH">High</option>
+                    <option value="CRITICAL">Critical</option>
+
+                </select>
+
+                <button type="submit">
+                    Report Incident
+                </button>
+
+            </form>
+
+            <p id="message"></p>
+
+        </section>
+
+
+        <section class="incidents-section">
+
+            <h2>Incidents</h2>
+
+            <div id="incidentList">
+                Loading incidents...
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <script src="app.js"></script>
+
+</body>
+
+</html>

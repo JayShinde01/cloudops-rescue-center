@@ -1,6 +1,12 @@
 from flask import Flask, request, jsonify
+from flask_cors import CORS
+import requests
 
 app = Flask(__name__)
+
+CORS(app)
+
+NOTIFICATION_SERVICE_URL = "http://localhost:5001/notify"
 
 incidents = []
 
@@ -36,8 +42,26 @@ def create_incident():
 
     incidents.append(incident)
 
-    return jsonify(incident), 201
+    try:
+        response = requests.post(
+            NOTIFICATION_SERVICE_URL,
+            json=incident,
+            timeout=5
+        )
 
+        print(
+            "Notification service response:",
+            response.status_code
+        )
+
+    except requests.RequestException as error:
+
+        print(
+            "Notification service unavailable:",
+            error
+        )
+
+    return jsonify(incident), 201
 
 @app.route("/incidents/<incident_id>", methods=["GET"])
 def get_incident(incident_id):
